@@ -77,12 +77,15 @@ const FindOrCreateTicketService = async ({
 
     // Se um ticket for encontrado, atualiza o status para 'pending', remove o usuário atribuído e emite um evento de atualização
     if (ticket) {
+      // Atualiza o status do ticket para 'pending', o que o coloca de volta na fila de atendimento
+      // Remove o usuário atribuído ao ticket, para que ele possa ser atribuído a outro atendente
       await ticket.update({
         status: "pending",
         userId: null,
         unreadMessages
       });
 
+      // Emite um evento para atualizar a interface do cliente com as mudanças no ticket
       socketEmit({
         tenantId,
         type: "ticket:update",
@@ -300,6 +303,7 @@ const FindOrCreateTicketService = async ({
     }
   }
 
+  // Se não encontrou um ticket existente, cria um novo ticket
   const ticketCreated = await Ticket.create(ticketObj);
 
   await CreateLogTicketService({
