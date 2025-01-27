@@ -48,7 +48,7 @@ const ListTicketsService = async ({
   tags
 }: Request): Promise<Response> => {
   // check is admin
-  const isAdminShowAll = showAll == "true" && profile === "admin";
+  const isAdminShowAll = showAll == "true" && "userProfile === 'admin' || userProfile === 'user'";
   const isUnread =
     withUnreadMessages && withUnreadMessages == "true" ? "S" : "N";
   const isNotAssigned =

@@ -119,14 +119,14 @@
                       <q-tooltip>Fechar</q-tooltip>
                     </q-btn>
                   </div>
-                  <q-scroll-area style="height: 450px;">
+                    <q-scroll-area style="height: 450px;">
+                    <!-- q-toggle para exibir todos os tickets (apenas para admin) -->
                     <q-toggle
-                      v-if="profile === 'admin'"
                       class="q-ml-lg q-mb-md"
                       v-model="pesquisaTickets.showAll"
                       label="(Admin) - Visualizar Todos"
                       @input="debounce(BuscarTicketFiltro(), 700)"
-                    />
+                      />
                     <q-separator class="q-mb-md" />
                     <q-select
                       :disable="pesquisaTickets.showAll"
@@ -1251,6 +1251,7 @@ export default {
           this.$root.$emit('infor-cabecalo-chat:acao-menu')
         }
         console.log('before - AbrirChatMensagens', ticket)
+        this.$store.commit('SET_HAS_MORE', true)
         this.$store.commit('SET_HAS_MORE', true)
         this.$store.dispatch('AbrirChatMensagens', ticket)
       }
